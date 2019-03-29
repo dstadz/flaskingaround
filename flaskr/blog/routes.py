@@ -20,7 +20,6 @@ posts = [
 ]
 
 
-
 @app.route("/")
 @app.route("/home")
 def home():
@@ -42,7 +41,7 @@ def register():
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash('account created. you can log in now')
+        flash('account created. you can log in now','success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -58,7 +57,8 @@ def login():
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))
-        flash('Login Unsuccessful. Please check email and password', 'danger')
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
 @app.route('/logout')
