@@ -108,7 +108,7 @@ def account():
 @login_required
 def new_post():
     form = PostForm()
-        if form.validate_on_submit():
-            flash('you made a post', 'success')
-            return redirect(url_for('home'))
-       return render_template('create_post.html', title='New Post', form=form)
+    if form.validate_on_submit():
+        flash('you made a post', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html', title='New Post', form=form)
