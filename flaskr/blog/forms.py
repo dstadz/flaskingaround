@@ -8,27 +8,10 @@ from blog.models import User
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', 
-        validators=[
-            DataRequired(),
-            Length(min=2, max=20)
-            ])
-            
-    email = StringField("Email", 
-        validators=[
-            DataRequired(), 
-            Email()
-            ])
-
-    password = PasswordField("Password", 
-        validators=[DataRequired()])
-
-    confirm_password = PasswordField("Confirm Password", 
-    validators=[
-        DataRequired(), 
-        EqualTo('password')
-        ]
-        )
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password')]) 
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
@@ -70,7 +53,20 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError('That email is taken, try again')
 
-class PostForm(FlaskForm):
+class PostForm(FlaskForm):  
     title = StringField('TItle', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
+
+class RequestResetForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('That email is not in our database')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField("Password", validators=[DataRequired()])
+    confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password')]) 
+    submit = SubmitField('Reset Password')
