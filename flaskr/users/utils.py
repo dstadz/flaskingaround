@@ -16,7 +16,7 @@ def save_picture(form_picture):
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
-    
+
     return picture_fn
 
 
@@ -25,7 +25,7 @@ def send_reset_email(user):
     msg = Message('Password Reset Request', sender = 'danstad2012@gmail.com', recipients=[user.email])
     msg.body = f'''
     to reset password, visit the following link:
-    {url_for('reset_token', token=token, _external=True)}
+    {url_for('users.reset_token', token=token, _external=True)}
 
     If you didn't make this request, freak out
     '''
