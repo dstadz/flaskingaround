@@ -5,10 +5,10 @@ from blog import db
 from blog.models import Post
 from blog.posts.forms import PostForm
 
-post = Blueprint('post', __name__)
+posts = Blueprint('posts', __name__)
 
 
-@post.route('/post/new', methods=['GET', 'POST'])
+@posts.route('/post/new', methods=['GET', 'POST'])
 @login_required
 def new_post():
     form = PostForm()
@@ -21,13 +21,13 @@ def new_post():
     return render_template('create_post.html', title='New Post', form=form, legend='New Post')
 
     
-@post.route('/post/<int:post_id>')
+@posts.route('/post/<int:post_id>')
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', title=post.title, post=post)
 
 
-@post.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
+@posts.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -46,7 +46,7 @@ def update_post(post_id):
     return render_template('create_post.html', title='Update Post', form=form, legend='Update Post')
 
 
-@post.route('/post/<int:post_id>/delete', methods=['POST'])
+@posts.route('/post/<int:post_id>/delete', methods=['POST'])
 @login_required
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)

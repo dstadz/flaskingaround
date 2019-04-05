@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+from blog.config import Config
+
 
 
 
@@ -23,9 +25,9 @@ app.config['MAIL_PASSWORD']=os.environ.get('EMAIL_PASS')
 mail = Mail(app)
 
 from blog.users.routes import users
-from blog.post.routes import post
+from blog.posts.routes import posts
 from blog.main.routes import main
 
 app.register_blueprint(users)
-app.register_blueprint(post)
+app.register_blueprint(posts)
 app.register_blueprint(main)
