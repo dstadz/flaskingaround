@@ -1,12 +1,24 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
+from flask_mysqldb import MySQL
 from flask_login import LoginManager
 from flask_mail import Mail
 from blog.config import Config
+from sqlalchemy import create_engine
 
+from flask_bcrypt import Bcrypt
+import yaml
 
+engine = create_engine('mysql://scott:tiger@localhost/foo')
+
+db = yaml.load(open('db.yaml'))
+app.config['MYSQL_HOST']= db['mysql_host']
+app.config['MYSQL_USER']= db['mysql_user']
+app.config['MYSQL_PASSWORD']= db['mysql_password']
+app.config['MYSQL_DB']= db['mysql_db']
+
+mysql = MySQL(app)
 
 db= SQLAlchemy()
 bcrypt = Bcrypt()
